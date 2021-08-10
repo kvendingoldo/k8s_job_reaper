@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Chart for the tool that will delete old K8S jobs
+name: k8s-jobs-reaper
+version: 1.0.3

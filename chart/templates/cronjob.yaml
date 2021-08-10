@@ -1,0 +1,30 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ template "name" . }}
+  labels:
+{{ include "labels" . | indent 4 }}
+spec:
+  schedule: {{ .Values.schedule | quote }}
+  failedJobsHistoryLimit: {{ .Values.history.failed }}
+  successfulJobsHistoryLimit: {{ .Values.history.successful }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+{{ include "labels" . | indent 12 }}
+        spec:
+          imagePullSecrets:
+{{ toYaml .Values.registry.secrets | indent 12 }}
+          containers:
+            - name: reaper
+              image: {{ template "image" . }}
+              imagePullPolicy: {{ .Values.images.reaper.pullPolicy }}
+              env:
+                - name: NAMESPACES
+                  value: {{ .Values.namespaces }}
+          restartPolicy: OnFailure
+          serviceAccountName: {{ template "name" . }}
+          automountServiceAccountToken: true

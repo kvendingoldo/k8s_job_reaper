@@ -1,0 +1,28 @@
+#
+# Common
+#
+name:
+  override: ""
+  useReleaseName: true
+
+#
+# Reaper configuration
+#
+namespaces: "all"
+schedule: "*/30 * * * *"
+history:
+  successful: 1
+  failed: 1
+
+#
+# Docker image
+#
+registry:
+  url: <YOUR_REGISTRY>
+  secrets: []
+
+images:
+  reaper:
+    image: <PATH_TO_YOUR_REAPER_IMAGE>
+    tag: <YOUR_REAPER_IMAGE_TAG>
+    pullPolicy: Always
